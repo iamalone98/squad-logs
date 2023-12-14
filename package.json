@@ -1,6 +1,6 @@
 {
   "name": "squad-logs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": "https://github.com/iamalone98/squad-logs.git",
@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon src/index.ts",
-    "build": "tsc && yarn fix-esm-import-path lib/**/*.js && rollup -c rollup.config.js",
+    "build": "tsc && yarn fix-esm-import-path lib/*.js && rollup -c rollup.config.js",
     "lint:check": "tsc --noEmit && eslint **/*.ts && prettier **/*.ts --check",
     "lint:format": "eslint **/*.ts --fix && prettier **/*.ts --write",
     "prepare": "husky install"
