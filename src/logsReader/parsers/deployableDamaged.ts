@@ -13,7 +13,7 @@ export const deployableDamaged = (line: string) => {
       deployable: matches[3],
       damage: parseFloat(matches[4]),
       weapon: matches[5],
-      playerSuffix: matches[6],
+      name: matches[6],
       damageType: matches[7],
       healthRemaining: matches[8],
       event: 'DEPLOYABLE_DAMAGED',

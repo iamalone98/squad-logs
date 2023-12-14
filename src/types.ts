@@ -121,7 +121,7 @@ export type TDeployableDamaged = {
   deployable: string;
   damage: number;
   weapon: string;
-  playerSuffix: string;
+  name: string;
   damageType: string;
   healthRemaining: string;
   event: string;
@@ -133,11 +133,11 @@ export type TPlayerDamaged = {
   chainID: string;
   victimName: string;
   damage: number;
-  attackerName:string;
-  attackerEOSID:string;
-  attackerSteamID:string;
-  attackerController:string;
-  weapon:string;
+  attackerName: string;
+  attackerEOSID: string;
+  attackerSteamID: string;
+  attackerController: string;
+  weapon: string;
   event: string;
 };
 
@@ -145,7 +145,7 @@ export type TPlayerSuicide = {
   raw: string;
   time: string;
   chainID: string;
-  playerSuffix: string;
+  name: string;
   event: string;
 };
 
@@ -183,8 +183,8 @@ export type TSquadCreated = {
   raw: string;
   time: string;
   chainID: string;
-  playerName: string;
-  playerSteamID: string;
+  name: string;
+  steamID: string;
   squadID: string;
   squadName: string;
   teamName: string;

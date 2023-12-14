@@ -10,7 +10,7 @@ export const playerSuicide = (line: string) => {
       raw: matches[0],
       time: matches[1],
       chainID: matches[2],
-      playerSuffix: matches[3],
+      name: matches[3],
       event: 'PLAYER_SUICIDE',
     };
 
