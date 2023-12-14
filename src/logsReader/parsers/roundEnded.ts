@@ -1,9 +1,4 @@
-export type TRoundEnded = {
-  raw: string;
-  time: string;
-  chainID: string;
-  event: string;
-};
+import { TRoundEnded } from '../../types';
 
 export const roundEnded = (line: string) => {
   const matches = line.match(

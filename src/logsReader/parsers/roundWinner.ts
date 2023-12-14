@@ -1,11 +1,4 @@
-export type TRoundWinner = {
-  raw: string;
-  time: string;
-  chainID: string;
-  winner: string;
-  layer: string;
-  event: string;
-};
+import { TRoundWinner } from '../../types';
 
 export const roundWinner = (line: string) => {
   const matches = line.match(

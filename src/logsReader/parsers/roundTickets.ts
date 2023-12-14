@@ -1,16 +1,4 @@
-export type TRoundTickets = {
-  raw: string;
-  time: string;
-  chainID: string;
-  team: string;
-  subfaction: string;
-  faction: string;
-  action: string;
-  tickets: string;
-  layer: string;
-  level: string;
-  event: string;
-};
+import { TRoundTickets } from '../../types';
 
 export const roundTickets = (line: string) => {
   const matches = line.match(

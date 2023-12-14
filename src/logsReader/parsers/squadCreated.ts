@@ -1,14 +1,4 @@
-export type TSquadCreated = {
-  raw: string;
-  time: string;
-  chainID: string;
-  playerName: string;
-  playerSteamID: string;
-  squadID: string;
-  squadName: string;
-  teamName: string;
-  event: string;
-};
+import { TSquadCreated } from '../../types';
 
 export const squadCreated = (line: string) => {
   const matches = line.match(

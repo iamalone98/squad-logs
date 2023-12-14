@@ -1,10 +1,4 @@
-export type TPlayerSuicide = {
-  raw: string;
-  time: string;
-  chainID: string;
-  playerSuffix: string;
-  event: string;
-};
+import { TPlayerSuicide } from '../../types';
 
 export const playerSuicide = (line: string) => {
   const matches = line.match(

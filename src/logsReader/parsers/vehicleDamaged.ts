@@ -1,14 +1,4 @@
-export type TVehicleDamaged = {
-  raw: string;
-  time: string;
-  chainID: string;
-  victimVehicle: string;
-  damage: number;
-  attackerVehicle: string;
-  attackerName: string;
-  healthRemaining: string;
-  event: string;
-};
+import { TVehicleDamaged } from '../../types';
 
 export const vehicleDamaged = (line: string) => {
   const matches = line.match(

@@ -1,15 +1,4 @@
-export type TDeployableDamaged = {
-  raw: string;
-  time: string;
-  chainID: string;
-  deployable: string;
-  damage: number;
-  weapon: string;
-  playerSuffix: string;
-  damageType: string;
-  healthRemaining: string;
-  event: string;
-};
+import { TDeployableDamaged } from '../../types';
 
 export const deployableDamaged = (line: string) => {
   const matches = line.match(
