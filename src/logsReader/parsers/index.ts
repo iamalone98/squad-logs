@@ -8,6 +8,14 @@ import { playerPossess } from './playerPossess';
 import { playerRevived } from './playerRevived';
 import { playerUnpossess } from './playerUnpossess';
 import { playerWounded } from './playerWounded';
+import { deployableDamaged } from './deployableDamaged';
+import { playerDamaged } from './playerDamaged';
+import { playerSuicide } from './playerSuicide';
+import { roundEnded } from './roundEnded';
+import { roundTickets } from './roundTickets';
+import { roundWinner } from './roundWinner';
+import { squadCreated } from './squadCreated';
+import { vehicleDamaged } from './vehicleDamaged';
 
 const parsers = [
   adminBroadcast,
@@ -19,6 +27,14 @@ const parsers = [
   playerDied,
   playerPossess,
   playerUnpossess,
+  deployableDamaged,
+  playerDamaged,
+  playerSuicide,
+  roundEnded,
+  roundTickets,
+  roundWinner,
+  squadCreated,
+  vehicleDamaged
 ];
 
 export const parseLine = (line: string, emitter: EventEmitter) => {
