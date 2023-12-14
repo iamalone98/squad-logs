@@ -15,7 +15,9 @@
     "prepare": "husky install"
   },
   "husky": {
-    "pre-commit": "lint-staged"
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "**/*.ts": "tsc --noEmit && eslint && prettier --write"
