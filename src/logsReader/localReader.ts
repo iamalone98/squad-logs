@@ -1,4 +1,4 @@
-import { EventEmitter } from 'stream';
+import type { EventEmitter } from 'events';
 import { Tail } from 'tail';
 import { logger } from '../logger';
 import { parseLine } from './parsers/index';

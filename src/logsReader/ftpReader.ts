@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import type { EventEmitter } from 'events';
 import readline from 'readline';
 import Client from 'ssh2-sftp-client';
 import { logger } from '../logger';

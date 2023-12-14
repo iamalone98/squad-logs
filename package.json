@@ -16,9 +16,9 @@
   },
   "lint-staged": {
     "**/*.ts": [
+      "bash -c tsc --noEmit",
       "eslint",
-      "prettier --write",
-      "tsc --noEmit"
+      "prettier --write"
     ]
   },
   "dependencies": {
