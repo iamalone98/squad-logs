@@ -14,13 +14,12 @@
     "lint:format": "eslint **/*.ts --fix && prettier **/*.ts --write",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "**/*.ts": "tsc --noEmit && eslint && prettier --write"
+    "**/*.ts": [
+      "eslint",
+      "prettier --write",
+      "tsc --noEmit"
+    ]
   },
   "dependencies": {
     "chalk": "^5.3.0",
