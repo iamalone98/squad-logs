@@ -113,3 +113,92 @@ export type TPlayerWounded = {
   weapon: string;
   event: string;
 };
+
+export type TDeployableDamaged = {
+  raw: string;
+  time: string;
+  chainID: string;
+  deployable: string;
+  damage: number;
+  weapon: string;
+  name: string;
+  damageType: string;
+  healthRemaining: string;
+  event: string;
+};
+
+export type TPlayerDamaged = {
+  raw: string;
+  time: string;
+  chainID: string;
+  victimName: string;
+  damage: number;
+  attackerName: string;
+  attackerEOSID: string;
+  attackerSteamID: string;
+  attackerController: string;
+  weapon: string;
+  event: string;
+};
+
+export type TPlayerSuicide = {
+  raw: string;
+  time: string;
+  chainID: string;
+  name: string;
+  event: string;
+};
+
+export type TRoundEnded = {
+  raw: string;
+  time: string;
+  chainID: string;
+  event: string;
+};
+
+export type TRoundTickets = {
+  raw: string;
+  time: string;
+  chainID: string;
+  team: string;
+  subfaction: string;
+  faction: string;
+  action: string;
+  tickets: string;
+  layer: string;
+  level: string;
+  event: string;
+};
+
+export type TRoundWinner = {
+  raw: string;
+  time: string;
+  chainID: string;
+  winner: string;
+  layer: string;
+  event: string;
+};
+
+export type TSquadCreated = {
+  raw: string;
+  time: string;
+  chainID: string;
+  name: string;
+  steamID: string;
+  squadID: string;
+  squadName: string;
+  teamName: string;
+  event: string;
+};
+
+export type TVehicleDamaged = {
+  raw: string;
+  time: string;
+  chainID: string;
+  victimVehicle: string;
+  damage: number;
+  attackerVehicle: string;
+  attackerName: string;
+  healthRemaining: string;
+  event: string;
+};
