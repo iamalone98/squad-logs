@@ -1,7 +1,7 @@
 import { EventEmitter } from 'stream';
 import { Tail } from 'tail';
 import { logger } from '../logger';
-import { parseLine } from './parsers';
+import { parseLine } from './parsers/index';
 
 let isReaderWorking = false;
 let timer: NodeJS.Timeout;

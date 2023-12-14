@@ -3,7 +3,7 @@ import readline from 'readline';
 import Client from 'ssh2-sftp-client';
 import { logger } from '../logger';
 import { TLogReaderFTPOptions } from '../types';
-import { parseLine } from './parsers';
+import { parseLine } from './parsers/index';
 
 let isReaderWorking = false;
 let timer: NodeJS.Timeout;

@@ -1,2 +1,2 @@
-export { LogsReader } from './logsReader';
+export { LogsReader } from './logsReader/index';
 export * from './types';
