@@ -17,7 +17,7 @@ export const playerDamaged = (line: string) => {
       attackerSteamID: matches[7],
       attackerController: matches[8],
       weapon: matches[9],
-      event: 'PLAYER_DAMAGE',
+      event: 'PLAYER_DAMAGED',
     };
 
     return data;

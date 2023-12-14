@@ -56,3 +56,27 @@ logsEmitter.on('PLAYER_CONNECTED', (data) => {
   console.log(data);
 });
 ```
+
+### Events
+
+| Event                   | Return       | Type                  |
+| ----------------------- | ------------ | --------------------- |
+| **ADMIN_BROADCAST**     | **response** | `TAdminBroadcast`     |
+| **DEPLOYABLE_DAMAGED**  | **response** | `TDeployableDamaged`  |
+| **NEW_GAME**            | **response** | `TNewGame`            |
+| **PLAYER_CONNECTED**    | **response** | `TPlayerConnected`    |
+| **PLAYER_DISCONNECTED** | **response** | `TPlayerDisconnected` |
+| **PLAYER_DAMAGED**      | **response** | `TPlayerDamaged`      |
+| **PLAYER_DIED**         | **response** | `TPlayerDied`         |
+| **PLAYER_POSSESS**      | **response** | `TPlayerPossess`      |
+| **PLAYER_UNPOSSESS**    | **response** | `TPlayerUnpossess`    |
+| **PLAYER_BANNED**       | **response** | `TPlayerBanned`       |
+| **PLAYER_REVIVED**      | **response** | `TPlayerRevived`      |
+| **PLAYER_SUICIDE**      | **response** | `TPlayerSuicide`      |
+| **PLAYER_WOUNDED**      | **response** | `TPlayerWounded`      |
+| **PLAYER_BANNED**       | **response** | `TPlayerBanned`       |
+| **ROUND_WINNER**        | **response** | `TRoundWinner`        |
+| **ROUND_ENDED**         | **response** | `TRoundEnded`         |
+| **ROUND_TICKETS**       | **response** | `TRoundTickets`       |
+| **SQUAD_CREATED**       | **response** | `TSquadCreated`       |
+| **VEHICLE_DAMAGED**     | **response** | `TVehicleDamaged`     |
