@@ -1,0 +1,35 @@
+{
+  "name": "squad-logs",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": "https://github.com/iamalone98/squad-logs.git",
+  "author": "I-Am Alone <iamalone9828@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon src/index.ts",
+    "build": "tsc && yarn fix-esm-import-path lib/*.js && rollup -c rollup.config.js",
+    "serve": "node lib/index.js",
+    "lint": "eslint src/**/*.ts",
+    "format": "eslint src/**/*.ts --fix"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "ssh2-sftp-client": "^9.1.0"
+  },
+  "devDependencies": {
+    "@types/ssh2-sftp-client": "^9.0.3",
+    "@types/node": "^20.8.7",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^8.52.0",
+    "fix-esm-import-path": "^1.4.2",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "rollup-plugin-dts": "^6.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
