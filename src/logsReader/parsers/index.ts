@@ -1,4 +1,4 @@
-import EventEmitter from 'events';
+import type { EventEmitter } from 'events';
 import { adminBroadcast } from './adminBroadcast';
 import { deployableDamaged } from './deployableDamaged';
 import { newGame } from './newGame';
@@ -38,11 +38,13 @@ const parsers = [
 ];
 
 export const parseLine = (line: string, emitter: EventEmitter) => {
-  parsers.forEach((f) => {
-    const result = f(line);
+  for (let i = 0; i < parsers.length; i++) {
+    const result = parsers[i](line);
 
     if (result) {
       emitter.emit(result.event, result);
+
+      break;
     }
-  });
+  }
 };
