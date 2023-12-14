@@ -1,15 +1,4 @@
-export type TPlayerWounded = {
-  raw: string;
-  time: string;
-  chainID: string;
-  victimName: string;
-  damage: number;
-  attackerPlayerController: string;
-  attackerEOSID: string;
-  attackerSteamID: string;
-  weapon: string;
-  event: string;
-};
+import { TPlayerWounded } from '../../types';
 
 export const playerWounded = (line: string) => {
   const matches = line.match(

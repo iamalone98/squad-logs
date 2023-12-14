@@ -1,12 +1,4 @@
-export type TPlayerUnpossess = {
-  raw: string;
-  time: string;
-  chainID: string;
-  name: string;
-  eosID: string;
-  steamID: string;
-  event: string;
-};
+import { TPlayerUnpossess } from '../../types';
 
 export const playerUnpossess = (line: string) => {
   const matches = line.match(

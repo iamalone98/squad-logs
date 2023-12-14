@@ -1,12 +1,4 @@
-export type TNewGame = {
-  raw: string;
-  time: string;
-  chainID: string;
-  dlc: string;
-  mapClassname: string;
-  layerClassname: string;
-  event: string;
-};
+import { TNewGame } from '../../types';
 
 export const newGame = (line: string) => {
   const matches = line.match(

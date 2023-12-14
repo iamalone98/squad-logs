@@ -1,14 +1,4 @@
-export type TPlayerPossess = {
-  raw: string;
-  time: string;
-  chainID: string;
-  name: string;
-  eosID: string;
-  steamID: string;
-  possessClassname: string;
-  pawn: string;
-  event: string;
-};
+import { TPlayerPossess } from '../../types';
 
 export const playerPossess = (line: string) => {
   const matches = line.match(

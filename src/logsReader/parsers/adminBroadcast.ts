@@ -1,11 +1,4 @@
-export type TAdminBroadcast = {
-  raw: string;
-  time: string;
-  chainID: string;
-  message: string;
-  from: string;
-  event: string;
-};
+import { TAdminBroadcast } from '../../types';
 
 export const adminBroadcast = (line: string) => {
   const matches = line.match(

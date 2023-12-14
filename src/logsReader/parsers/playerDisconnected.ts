@@ -1,11 +1,4 @@
-export type TPlayerDisconnected = {
-  raw: string;
-  time: string;
-  chainID: string;
-  steamID: string;
-  playerController: string;
-  event: string;
-};
+import { TPlayerDisconnected } from '../../types';
 
 export const playerDisconnected = (line: string) => {
   const matches = line.match(

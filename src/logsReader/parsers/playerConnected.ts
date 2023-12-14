@@ -1,12 +1,4 @@
-export type TPlayerConnected = {
-  raw: string;
-  time: string;
-  chainID: string;
-  ip: string;
-  eosID: string;
-  steamID: string;
-  event: string;
-};
+import { TPlayerConnected } from '../../types';
 
 export const playerConnected = (line: string) => {
   const matches = line.match(

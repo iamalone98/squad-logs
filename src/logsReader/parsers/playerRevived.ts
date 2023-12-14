@@ -1,15 +1,4 @@
-export type TPlayerRevived = {
-  raw: string;
-  time: string;
-  chainID: string;
-  reviverName: string;
-  reviverEOSID: string;
-  reviverSteamID: string;
-  victimName: string;
-  victimEOSID: string;
-  victimSteamID: string;
-  event: string;
-};
+import { TPlayerRevived } from '../../types';
 
 export const playerRevived = (line: string) => {
   const matches = line.match(
