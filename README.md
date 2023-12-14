@@ -43,7 +43,7 @@ logsEmitter.on('PLAYER_CONNECTED', (data) => {
 });
 ```
 
-### LOCAL (TOOOODOOOOOOOO)
+### LOCAL
 
 ```typescript
 import { LogsReader } from 'squad-logs';
