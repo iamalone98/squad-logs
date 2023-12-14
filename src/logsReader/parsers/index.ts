@@ -1,4 +1,4 @@
-import type { EventEmitter } from 'events';
+import EventEmitter from 'events';
 import { adminBroadcast } from './adminBroadcast';
 import { deployableDamaged } from './deployableDamaged';
 import { newGame } from './newGame';

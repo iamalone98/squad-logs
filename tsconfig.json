@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
-    "declarationDir": "./lib/types",
+    "declarationDir": "./lib/types"
   },
   "ts-node": {
     "esm": true,
