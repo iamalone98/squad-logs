@@ -3,6 +3,5 @@ export default {
     () => 'tsc -p tsconfig.json --noEmit',
     'eslint',
     'prettier --write',
-    'git add',
   ],
 };
