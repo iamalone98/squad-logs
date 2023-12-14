@@ -11,7 +11,7 @@ export const playerDamaged = (line: string) => {
       time: matches[1],
       chainID: matches[2],
       victimName: matches[3],
-      damage1: parseFloat(matches[4]),
+      damage: parseFloat(matches[4]),
       attackerName: matches[5],
       attackerEOSID: matches[6],
       attackerSteamID: matches[7],
