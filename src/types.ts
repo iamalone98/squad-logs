@@ -1,4 +1,5 @@
 export type TLogReaderOptions = {
+  id: number;
   logEnabled?: boolean;
 } & (TLogReaderLocalOptions | TLogReaderFTPOptions);
 

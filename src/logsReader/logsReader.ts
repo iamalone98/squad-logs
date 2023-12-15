@@ -1,4 +1,5 @@
 import EventEmitter from 'events';
+import { CONFIG } from '../config';
 import { logger } from '../logger';
 import {
   TLogReaderFTPOptions,
@@ -15,6 +16,12 @@ export const LogsReader = (options: TLogReaderOptions) => {
     logger.error('LogReader options is required');
     return logsEmitter;
   }
+
+  CONFIG.serverID = options.id;
+  CONFIG.logEnabled =
+    typeof options.logEnabled === 'undefined'
+      ? true
+      : options.logEnabled;
 
   if ((options as TLogReaderLocalOptions).localFilePath) {
     const { localFilePath } = options as TLogReaderLocalOptions;
