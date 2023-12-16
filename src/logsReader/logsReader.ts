@@ -1,5 +1,4 @@
 import EventEmitter from 'events';
-import { CONFIG } from '../config';
 import { initLogger } from '../logger';
 import {
   TLogReaderFTPOptions,
@@ -26,7 +25,7 @@ export const LogsReader = (options: TLogReaderOptions) => {
 
   if (
     (options as TLogReaderLocalOptions).localFilePath &&
-    CONFIG.serverID
+    options.id
   ) {
     const { localFilePath } = options as TLogReaderLocalOptions;
 
