@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TDeployableDamaged } from '../../types';
 
 export const deployableDamaged = (line: string) => {
@@ -16,7 +17,7 @@ export const deployableDamaged = (line: string) => {
       name: matches[6],
       damageType: matches[7],
       healthRemaining: matches[8],
-      event: 'DEPLOYABLE_DAMAGED',
+      event: LogsReaderEvents.DEPLOYABLE_DAMAGED,
     };
 
     return data;

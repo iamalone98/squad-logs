@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TSquadCreated } from '../../types';
 
 export const squadCreated = (line: string) => {
@@ -15,7 +16,7 @@ export const squadCreated = (line: string) => {
       squadID: matches[5],
       squadName: matches[6],
       teamName: matches[7],
-      event: 'SQUAD_CREATED',
+      event: LogsReaderEvents.SQUAD_CREATED,
     };
 
     return data;

@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TPlayerRevived } from '../../types';
 
 export const playerRevived = (line: string) => {
@@ -16,7 +17,7 @@ export const playerRevived = (line: string) => {
       victimName: matches[6],
       victimEOSID: matches[7],
       victimSteamID: matches[8],
-      event: 'PLAYER_REVIVED',
+      event: LogsReaderEvents.PLAYER_REVIVED,
     };
 
     return data;

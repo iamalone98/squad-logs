@@ -27,10 +27,12 @@ export const ftpReader = (
       })
       .then(async () => {
         isReaderWorking = true;
-        logger.log('Connected to FTP server');
 
         let lastSize = (await sftp.stat(remoteFilePath)).size;
         let canStart = true;
+
+        emitter.emit('connected');
+        logger.log('Connected to FTP server');
 
         for (;;) {
           const { size } = await sftp.stat(remoteFilePath);

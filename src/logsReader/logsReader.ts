@@ -23,7 +23,10 @@ export const LogsReader = (options: TLogReaderOptions) => {
       ? true
       : options.logEnabled;
 
-  if ((options as TLogReaderLocalOptions).localFilePath) {
+  if (
+    (options as TLogReaderLocalOptions).localFilePath &&
+    CONFIG.serverID
+  ) {
     const { localFilePath } = options as TLogReaderLocalOptions;
 
     localReader(localFilePath, logsEmitter);
@@ -34,7 +37,13 @@ export const LogsReader = (options: TLogReaderOptions) => {
   const { host, password, username, remoteFilePath } =
     options as TLogReaderFTPOptions;
 
-  if (host && password && username && remoteFilePath) {
+  if (
+    host &&
+    password &&
+    username &&
+    remoteFilePath &&
+    CONFIG.serverID
+  ) {
     ftpReader(options as TLogReaderFTPOptions, logsEmitter);
 
     return logsEmitter;

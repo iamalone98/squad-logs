@@ -15,6 +15,7 @@ export const localReader = (path: string, emitter: EventEmitter) => {
 
       isReaderWorking = true;
       logger.log('Connected');
+      emitter.emit('connected');
 
       tail.on('line', function (data) {
         parseLine(data, emitter);

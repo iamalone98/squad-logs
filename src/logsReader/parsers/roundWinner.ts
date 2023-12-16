@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TRoundWinner } from '../../types';
 
 export const roundWinner = (line: string) => {
@@ -12,7 +13,7 @@ export const roundWinner = (line: string) => {
       chainID: matches[2],
       winner: matches[3],
       layer: matches[4],
-      event: 'ROUND_WINNER',
+      event: LogsReaderEvents.ROUND_WINNER,
     };
 
     return data;

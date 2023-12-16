@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TNewGame } from '../../types';
 
 export const newGame = (line: string) => {
@@ -13,7 +14,7 @@ export const newGame = (line: string) => {
       dlc: matches[3],
       mapClassname: matches[4],
       layerClassname: matches[5],
-      event: 'NEW_GAME',
+      event: LogsReaderEvents.NEW_GAME,
     };
 
     return data;

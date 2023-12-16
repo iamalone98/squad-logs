@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TPlayerUnpossess } from '../../types';
 
 export const playerUnpossess = (line: string) => {
@@ -13,7 +14,7 @@ export const playerUnpossess = (line: string) => {
       name: matches[3],
       eosID: matches[4],
       steamID: matches[5],
-      event: 'PLAYER_UNPOSSESS',
+      event: LogsReaderEvents.PLAYER_UNPOSSESS,
     };
 
     return data;

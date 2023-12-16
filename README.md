@@ -32,6 +32,7 @@ $ yarn add squad-logs
 import { LogsReader } from 'squad-logs';
 
 const logsEmitter = LogsReader({
+  id: 1,
   remoteFilePath: '/SquadGame/Saved/Logs/SquadGame.log',
   host: '127.0.0.1',
   username: 'root',
@@ -49,6 +50,7 @@ logsEmitter.on('PLAYER_CONNECTED', (data) => {
 import { LogsReader } from 'squad-logs';
 
 const logsEmitter = LogsReader({
+  id: 1,
   localFilePath: '/SquadGame/Saved/Logs/SquadGame.log',
 });
 
@@ -70,13 +72,12 @@ logsEmitter.on('PLAYER_CONNECTED', (data) => {
 | **PLAYER_DIED**         | **response** | `TPlayerDied`         |
 | **PLAYER_POSSESS**      | **response** | `TPlayerPossess`      |
 | **PLAYER_UNPOSSESS**    | **response** | `TPlayerUnpossess`    |
-| **PLAYER_BANNED**       | **response** | `TPlayerBanned`       |
 | **PLAYER_REVIVED**      | **response** | `TPlayerRevived`      |
 | **PLAYER_SUICIDE**      | **response** | `TPlayerSuicide`      |
 | **PLAYER_WOUNDED**      | **response** | `TPlayerWounded`      |
-| **PLAYER_BANNED**       | **response** | `TPlayerBanned`       |
 | **ROUND_WINNER**        | **response** | `TRoundWinner`        |
 | **ROUND_ENDED**         | **response** | `TRoundEnded`         |
 | **ROUND_TICKETS**       | **response** | `TRoundTickets`       |
 | **SQUAD_CREATED**       | **response** | `TSquadCreated`       |
 | **VEHICLE_DAMAGED**     | **response** | `TVehicleDamaged`     |
+| **connected**           | null         | null                  |

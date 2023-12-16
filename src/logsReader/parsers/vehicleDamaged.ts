@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TVehicleDamaged } from '../../types';
 
 export const vehicleDamaged = (line: string) => {
@@ -15,7 +16,7 @@ export const vehicleDamaged = (line: string) => {
       attackerVehicle: matches[5],
       attackerName: matches[6],
       healthRemaining: matches[7],
-      event: 'VEHICLE_DAMAGED',
+      event: LogsReaderEvents.VEHICLE_DAMAGED,
     };
 
     return data;

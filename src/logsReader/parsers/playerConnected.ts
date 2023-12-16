@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TPlayerConnected } from '../../types';
 
 export const playerConnected = (line: string) => {
@@ -13,7 +14,7 @@ export const playerConnected = (line: string) => {
       ip: matches[4],
       eosID: matches[5],
       steamID: matches[6],
-      event: 'PLAYER_CONNECTED',
+      event: LogsReaderEvents.PLAYER_CONNECTED,
     };
 
     return data;

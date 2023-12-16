@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TRoundTickets } from '../../types';
 
 export const roundTickets = (line: string) => {
@@ -17,7 +18,7 @@ export const roundTickets = (line: string) => {
       tickets: matches[7],
       layer: matches[8],
       level: matches[9],
-      event: 'ROUND_TICKETS',
+      event: LogsReaderEvents.ROUND_TICKETS,
     };
 
     return data;

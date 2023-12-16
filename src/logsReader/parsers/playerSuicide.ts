@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TPlayerSuicide } from '../../types';
 
 export const playerSuicide = (line: string) => {
@@ -11,7 +12,7 @@ export const playerSuicide = (line: string) => {
       time: matches[1],
       chainID: matches[2],
       name: matches[3],
-      event: 'PLAYER_SUICIDE',
+      event: LogsReaderEvents.PLAYER_SUICIDE,
     };
 
     return data;

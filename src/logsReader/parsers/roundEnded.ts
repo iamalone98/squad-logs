@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TRoundEnded } from '../../types';
 
 export const roundEnded = (line: string) => {
@@ -10,7 +11,7 @@ export const roundEnded = (line: string) => {
       raw: matches[0],
       time: matches[1],
       chainID: matches[2],
-      event: 'ROUND_ENDED',
+      event: LogsReaderEvents.ROUND_ENDED,
     };
 
     return data;

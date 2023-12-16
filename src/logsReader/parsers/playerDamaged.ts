@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TPlayerDamaged } from '../../types';
 
 export const playerDamaged = (line: string) => {
@@ -17,7 +18,7 @@ export const playerDamaged = (line: string) => {
       attackerSteamID: matches[7],
       attackerController: matches[8],
       weapon: matches[9],
-      event: 'PLAYER_DAMAGED',
+      event: LogsReaderEvents.PLAYER_DAMAGED,
     };
 
     return data;

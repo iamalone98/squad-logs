@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TAdminBroadcast } from '../../types';
 
 export const adminBroadcast = (line: string) => {
@@ -12,7 +13,7 @@ export const adminBroadcast = (line: string) => {
       chainID: matches[2],
       message: matches[3],
       from: matches[4],
-      event: 'ADMIN_BROADCAST',
+      event: LogsReaderEvents.ADMIN_BROADCAST,
     };
 
     return data;

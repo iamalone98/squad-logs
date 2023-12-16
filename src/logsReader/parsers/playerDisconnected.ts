@@ -1,3 +1,4 @@
+import { LogsReaderEvents } from '../../events';
 import { TPlayerDisconnected } from '../../types';
 
 export const playerDisconnected = (line: string) => {
@@ -12,7 +13,7 @@ export const playerDisconnected = (line: string) => {
       chainID: matches[2],
       steamID: matches[3],
       playerController: matches[4],
-      event: 'PLAYER_DISCONNECTED',
+      event: LogsReaderEvents.PLAYER_DISCONNECTED,
     };
 
     return data;
