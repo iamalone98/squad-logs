@@ -3,33 +3,24 @@ import { Tail } from 'tail';
 import { logger } from '../logger';
 import { parseLine } from './parsers/index';
 
-let isReaderWorking = false;
-let timer: NodeJS.Timeout;
-
 export const localReader = (path: string, emitter: EventEmitter) => {
-  clearTimeout(timer);
+  try {
+    const tail = new Tail(path);
 
-  if (!isReaderWorking) {
-    try {
-      const tail = new Tail(path);
+    logger.log('Connected');
+    emitter.emit('connected');
 
-      isReaderWorking = true;
-      logger.log('Connected');
-      emitter.emit('connected');
+    tail.on('line', function (data) {
+      parseLine(data, emitter);
+    });
+  } catch (error) {
+    logger.error('Connection lost');
+    logger.error(error as string);
 
-      tail.on('line', function (data) {
-        parseLine(data, emitter);
-      });
-    } catch (error) {
-      isReaderWorking = false;
-      logger.error('Connection lost');
-      logger.error(error as string);
+    setTimeout(() => {
+      logger.log('Reconnect');
 
-      timer = setTimeout(() => {
-        logger.log('Reconnect');
-
-        localReader(path, emitter);
-      }, 1000);
-    }
+      localReader(path, emitter);
+    }, 5000);
   }
 };
