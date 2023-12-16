@@ -1,13 +1,14 @@
 import EventEmitter from 'events';
 import readline from 'readline';
 import Client from 'ssh2-sftp-client';
-import { logger } from '../logger';
+import { initLogger } from '../logger';
 import { TLogReaderFTPOptions } from '../types';
 import { parseLine } from './parsers/index';
 
 export const ftpReader = (
   options: TLogReaderFTPOptions,
   emitter: EventEmitter,
+  logger: ReturnType<typeof initLogger>,
 ) => {
   const { host, password, username, remoteFilePath } = options;
   const sftp = new Client();
@@ -58,7 +59,7 @@ export const ftpReader = (
       setTimeout(() => {
         logger.log('Reconnect to FTP');
 
-        ftpReader(options, emitter);
+        ftpReader(options, emitter, logger);
       }, 10000);
     });
 };

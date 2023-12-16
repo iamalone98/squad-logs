@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 import { CONFIG } from '../config';
-import { logger } from '../logger';
+import { initLogger } from '../logger';
 import {
   TLogReaderFTPOptions,
   TLogReaderLocalOptions,
@@ -12,16 +12,17 @@ import { localReader } from './localReader';
 export const LogsReader = (options: TLogReaderOptions) => {
   const logsEmitter = new EventEmitter();
 
+  const logger = initLogger(
+    options.id,
+    typeof options.logEnabled === 'undefined'
+      ? true
+      : options?.logEnabled,
+  );
+
   if (!options) {
     logger.error('LogReader options is required');
     return logsEmitter;
   }
-
-  CONFIG.serverID = options.id;
-  CONFIG.logEnabled =
-    typeof options.logEnabled === 'undefined'
-      ? true
-      : options.logEnabled;
 
   if (
     (options as TLogReaderLocalOptions).localFilePath &&
@@ -29,7 +30,7 @@ export const LogsReader = (options: TLogReaderOptions) => {
   ) {
     const { localFilePath } = options as TLogReaderLocalOptions;
 
-    localReader(localFilePath, logsEmitter);
+    localReader(localFilePath, logsEmitter, logger);
 
     return logsEmitter;
   }
@@ -37,14 +38,8 @@ export const LogsReader = (options: TLogReaderOptions) => {
   const { host, password, username, remoteFilePath } =
     options as TLogReaderFTPOptions;
 
-  if (
-    host &&
-    password &&
-    username &&
-    remoteFilePath &&
-    CONFIG.serverID
-  ) {
-    ftpReader(options as TLogReaderFTPOptions, logsEmitter);
+  if (host && password && username && remoteFilePath && options.id) {
+    ftpReader(options as TLogReaderFTPOptions, logsEmitter, logger);
 
     return logsEmitter;
   }

@@ -1,9 +1,13 @@
 import EventEmitter from 'events';
 import { Tail } from 'tail';
-import { logger } from '../logger';
+import { initLogger } from '../logger';
 import { parseLine } from './parsers/index';
 
-export const localReader = (path: string, emitter: EventEmitter) => {
+export const localReader = (
+  path: string,
+  emitter: EventEmitter,
+  logger: ReturnType<typeof initLogger>,
+) => {
   try {
     const tail = new Tail(path);
 
@@ -20,7 +24,7 @@ export const localReader = (path: string, emitter: EventEmitter) => {
     setTimeout(() => {
       logger.log('Reconnect');
 
-      localReader(path, emitter);
+      localReader(path, emitter, logger);
     }, 5000);
   }
 };
