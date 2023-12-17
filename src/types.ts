@@ -1,18 +1,13 @@
 export type TLogReaderOptions = {
   id: number;
-  logEnabled?: boolean;
-} & (TLogReaderLocalOptions | TLogReaderFTPOptions);
-
-export type TLogReaderLocalOptions = {
-  localFilePath: string;
-};
-
-export type TLogReaderFTPOptions = {
-  host: string;
-  username: string;
-  password: string;
-  remoteFilePath: string;
+  filePath: string;
+  adminsFilePath: string;
+  readType: 'local' | 'remote';
+  host?: string;
+  username?: string;
+  password?: string;
   timeout?: number;
+  logEnabled?: boolean;
 };
 
 export type TAdminBroadcast = {

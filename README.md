@@ -31,17 +31,25 @@ $ yarn add squad-logs
 ```typescript
 import { LogsReader } from 'squad-logs';
 
-const logsEmitter = LogsReader({
-  id: 1,
-  remoteFilePath: '/SquadGame/Saved/Logs/SquadGame.log',
-  host: '127.0.0.1',
-  username: 'root',
-  password: 'password',
-});
+(async () => {
+  const logsReader = LogsReader({
+    id: 1,
+    readType: 'remote',
+    adminsFilePath: '/SquadGame/ServerConfig/Admins.cfg',
+    filePath: '/SquadGame/Saved/Logs/SquadGame.log',
+    host: '127.0.0.1',
+    username: 'root',
+    password: '123456',
+  });
 
-logsEmitter.on('PLAYER_CONNECTED', (data) => {
-  console.log(data);
-});
+  await logsReader.init();
+
+  const admins = await logsReader.getAdminsFile();
+
+  logsEmitter.on('PLAYER_CONNECTED', (data) => {
+    console.log(data);
+  });
+})();
 ```
 
 ### LOCAL
@@ -49,14 +57,22 @@ logsEmitter.on('PLAYER_CONNECTED', (data) => {
 ```typescript
 import { LogsReader } from 'squad-logs';
 
-const logsEmitter = LogsReader({
-  id: 1,
-  localFilePath: '/SquadGame/Saved/Logs/SquadGame.log',
-});
+(async () => {
+  const logsEmitter = LogsReader({
+    id: 1,
+    readType: 'local',
+    adminsFilePath: '/SquadGame/ServerConfig/Admins.cfg',
+    filePath: '/SquadGame/Saved/Logs/SquadGame.log',
+  });
 
-logsEmitter.on('PLAYER_CONNECTED', (data) => {
-  console.log(data);
-});
+  await logsReader.init();
+
+  const admins = await logsReader.getAdminsFile();
+
+  logsEmitter.on('PLAYER_CONNECTED', (data) => {
+    console.log(data);
+  });
+})();
 ```
 
 ### Events
