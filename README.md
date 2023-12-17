@@ -46,7 +46,7 @@ import { LogsReader } from 'squad-logs';
 
   const admins = await logsReader.getAdminsFile();
 
-  logsEmitter.on('PLAYER_CONNECTED', (data) => {
+  logsReader.on('PLAYER_CONNECTED', (data) => {
     console.log(data);
   });
 })();
@@ -58,7 +58,7 @@ import { LogsReader } from 'squad-logs';
 import { LogsReader } from 'squad-logs';
 
 (async () => {
-  const logsEmitter = LogsReader({
+  const logsReader = LogsReader({
     id: 1,
     readType: 'local',
     adminsFilePath: '/SquadGame/ServerConfig/Admins.cfg',
@@ -69,7 +69,7 @@ import { LogsReader } from 'squad-logs';
 
   const admins = await logsReader.getAdminsFile();
 
-  logsEmitter.on('PLAYER_CONNECTED', (data) => {
+  logsReader.on('PLAYER_CONNECTED', (data) => {
     console.log(data);
   });
 })();
