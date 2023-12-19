@@ -12,6 +12,7 @@ export class LogsReader extends EventEmitter {
   filePath: string;
   adminsFilePath: string;
   readType: 'local' | 'remote';
+  autoReconnect: boolean;
   logger: ReturnType<typeof initLogger>;
   sftpConnected: boolean;
   sftp?: SFTPClient;
@@ -30,6 +31,7 @@ export class LogsReader extends EventEmitter {
       'filePath',
       'adminsFilePath',
       'readType',
+      'autoReconnect',
     ])
       if (!(option in options))
         throw new Error(`${option} required!`);
@@ -44,6 +46,7 @@ export class LogsReader extends EventEmitter {
       id,
       filePath,
       adminsFilePath,
+      autoReconnect,
       readType,
       host,
       username,
@@ -55,6 +58,7 @@ export class LogsReader extends EventEmitter {
     this.id = id;
     this.filePath = filePath;
     this.adminsFilePath = adminsFilePath;
+    this.autoReconnect = autoReconnect;
     this.readType = readType;
     this.logEnabled = logEnabled;
     this.timeout = timeout;
@@ -260,11 +264,13 @@ export class LogsReader extends EventEmitter {
         this.sftpConnected = false;
         this.sftp = undefined;
 
-        setTimeout(() => {
-          this.logger.log('Reconnect to FTP');
+        if (this.autoReconnect) {
+          setTimeout(() => {
+            this.logger.log('Reconnect to FTP');
 
-          this.#ftpReader();
-        }, 10000);
+            this.#ftpReader();
+          }, 5000);
+        }
       }
     }
   }
@@ -284,11 +290,13 @@ export class LogsReader extends EventEmitter {
       this.logger.error(error as string);
       this.emit('close');
 
-      setTimeout(() => {
-        this.logger.log('Reconnect');
+      if (this.autoReconnect) {
+        setTimeout(() => {
+          this.logger.log('Reconnect');
 
-        this.#localReader();
-      }, 5000);
+          this.#localReader();
+        }, 5000);
+      }
     }
   }
 }
