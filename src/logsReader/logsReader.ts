@@ -15,6 +15,7 @@ export class LogsReader extends EventEmitter {
   logger: ReturnType<typeof initLogger>;
   sftpConnected: boolean;
   sftp?: SFTPClient;
+  tail?: Tail;
   host?: string;
   username?: string;
   password?: string;
@@ -126,10 +127,28 @@ export class LogsReader extends EventEmitter {
             }
           }
         }
+        reject('Cannot read admins file');
       } catch (error) {
         reject(error);
       }
     });
+  }
+
+  async close() {
+    if (this.sftp && this.sftpConnected) {
+      await this.sftp.end();
+      this.sftp = undefined;
+      this.sftpConnected = false;
+      this.logger.warn('Close connection');
+      this.emit('close');
+    }
+
+    if (this.tail) {
+      this.tail.unwatch();
+      this.tail = undefined;
+      this.logger.warn('Close connection');
+      this.emit('close');
+    }
   }
 
   #parseLine(line: string) {
@@ -236,6 +255,7 @@ export class LogsReader extends EventEmitter {
       } catch (error) {
         this.logger.error('FTP connection lost');
         this.logger.error(error as string);
+        this.emit('close');
 
         this.sftpConnected = false;
         this.sftp = undefined;
@@ -251,17 +271,18 @@ export class LogsReader extends EventEmitter {
 
   #localReader() {
     try {
-      const tail = new Tail(this.filePath);
+      this.tail = new Tail(this.filePath);
 
       this.logger.log('Connected');
       this.emit('connected');
 
-      tail.on('line', (data) => {
+      this.tail.on('line', (data) => {
         this.#parseLine(data);
       });
     } catch (error) {
       this.logger.error('Connection lost');
       this.logger.error(error as string);
+      this.emit('close');
 
       setTimeout(() => {
         this.logger.log('Reconnect');

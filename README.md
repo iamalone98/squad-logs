@@ -97,3 +97,4 @@ import { LogsReader } from 'squad-logs';
 | **SQUAD_CREATED**       | **response** | `TSquadCreated`       |
 | **VEHICLE_DAMAGED**     | **response** | `TVehicleDamaged`     |
 | **connected**           | null         | null                  |
+| **close**               | null         | null                  |
