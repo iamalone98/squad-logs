@@ -57,7 +57,8 @@ export type TPlayerDisconnected = {
   raw: string;
   time: string;
   chainID: string;
-  steamID: string;
+  ip: string;
+  eosID: string;
   playerController: string;
   event: string;
 };
