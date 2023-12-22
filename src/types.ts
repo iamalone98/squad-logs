@@ -2,6 +2,7 @@ export type TLogReaderOptions = {
   id: number;
   filePath: string;
   adminsFilePath: string;
+  autoReconnect: boolean;
   readType: 'local' | 'remote';
   host?: string;
   username?: string;

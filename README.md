@@ -34,6 +34,7 @@ import { LogsReader } from 'squad-logs';
 (async () => {
   const logsReader = LogsReader({
     id: 1,
+    autoReconnect: true,
     readType: 'remote',
     adminsFilePath: '/SquadGame/ServerConfig/Admins.cfg',
     filePath: '/SquadGame/Saved/Logs/SquadGame.log',
@@ -60,6 +61,7 @@ import { LogsReader } from 'squad-logs';
 (async () => {
   const logsReader = LogsReader({
     id: 1,
+    autoReconnect: true,
     readType: 'local',
     adminsFilePath: '/SquadGame/ServerConfig/Admins.cfg',
     filePath: '/SquadGame/Saved/Logs/SquadGame.log',
@@ -97,3 +99,4 @@ import { LogsReader } from 'squad-logs';
 | **SQUAD_CREATED**       | **response** | `TSquadCreated`       |
 | **VEHICLE_DAMAGED**     | **response** | `TVehicleDamaged`     |
 | **connected**           | null         | null                  |
+| **close**               | null         | null                  |

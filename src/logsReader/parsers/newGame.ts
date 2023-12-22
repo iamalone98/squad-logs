@@ -17,6 +17,7 @@ export const newGame = (line: string) => {
       event: LogsReaderEvents.NEW_GAME,
     };
 
+    if (data.layerClassname.includes('Transition')) return null;
     return data;
   }
 

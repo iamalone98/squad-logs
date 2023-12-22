@@ -12,9 +12,11 @@ export class LogsReader extends EventEmitter {
   filePath: string;
   adminsFilePath: string;
   readType: 'local' | 'remote';
+  autoReconnect: boolean;
   logger: ReturnType<typeof initLogger>;
   sftpConnected: boolean;
   sftp?: SFTPClient;
+  tail?: Tail;
   host?: string;
   username?: string;
   password?: string;
@@ -29,6 +31,7 @@ export class LogsReader extends EventEmitter {
       'filePath',
       'adminsFilePath',
       'readType',
+      'autoReconnect',
     ])
       if (!(option in options))
         throw new Error(`${option} required!`);
@@ -43,6 +46,7 @@ export class LogsReader extends EventEmitter {
       id,
       filePath,
       adminsFilePath,
+      autoReconnect,
       readType,
       host,
       username,
@@ -54,6 +58,7 @@ export class LogsReader extends EventEmitter {
     this.id = id;
     this.filePath = filePath;
     this.adminsFilePath = adminsFilePath;
+    this.autoReconnect = autoReconnect;
     this.readType = readType;
     this.logEnabled = logEnabled;
     this.timeout = timeout;
@@ -126,10 +131,28 @@ export class LogsReader extends EventEmitter {
             }
           }
         }
+        reject('Cannot read admins file');
       } catch (error) {
         reject(error);
       }
     });
+  }
+
+  async close() {
+    if (this.sftp && this.sftpConnected) {
+      await this.sftp.end();
+      this.sftp = undefined;
+      this.sftpConnected = false;
+      this.logger.warn('Close connection');
+      this.emit('close');
+    }
+
+    if (this.tail) {
+      this.tail.unwatch();
+      this.tail = undefined;
+      this.logger.warn('Close connection');
+      this.emit('close');
+    }
   }
 
   #parseLine(line: string) {
@@ -236,38 +259,44 @@ export class LogsReader extends EventEmitter {
       } catch (error) {
         this.logger.error('FTP connection lost');
         this.logger.error(error as string);
+        this.emit('close');
 
         this.sftpConnected = false;
         this.sftp = undefined;
 
-        setTimeout(() => {
-          this.logger.log('Reconnect to FTP');
+        if (this.autoReconnect) {
+          setTimeout(() => {
+            this.logger.log('Reconnect to FTP');
 
-          this.#ftpReader();
-        }, 10000);
+            this.#ftpReader();
+          }, 5000);
+        }
       }
     }
   }
 
   #localReader() {
     try {
-      const tail = new Tail(this.filePath);
+      this.tail = new Tail(this.filePath);
 
       this.logger.log('Connected');
       this.emit('connected');
 
-      tail.on('line', (data) => {
+      this.tail.on('line', (data) => {
         this.#parseLine(data);
       });
     } catch (error) {
       this.logger.error('Connection lost');
       this.logger.error(error as string);
+      this.emit('close');
 
-      setTimeout(() => {
-        this.logger.log('Reconnect');
+      if (this.autoReconnect) {
+        setTimeout(() => {
+          this.logger.log('Reconnect');
 
-        this.#localReader();
-      }, 5000);
+          this.#localReader();
+        }, 5000);
+      }
     }
   }
 }
