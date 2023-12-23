@@ -81,18 +81,18 @@ export class LogsReader extends EventEmitter {
   }
 
   async init() {
-    switch (this.readType) {
-      case 'local': {
-        this.#localReader();
-      }
-      case 'remote': {
-        this.#ftpReader();
-      }
-    }
+    return new Promise((res) => {
+      this.on('connected', () => res(true));
 
-    return new Promise((res) =>
-      this.on('connected', () => res(true)),
-    );
+      switch (this.readType) {
+        case 'local': {
+          this.#localReader();
+        }
+        case 'remote': {
+          this.#ftpReader();
+        }
+      }
+    });
   }
 
   async getAdminsFile() {
