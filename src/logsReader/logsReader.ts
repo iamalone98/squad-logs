@@ -245,7 +245,7 @@ export class LogsReader extends EventEmitter {
                 });
 
                 rl.on('line', (line: string) => {
-                  parseLine(line, this);
+                  this.#parseLine(line);
                 });
 
                 rl.on('close', () => {

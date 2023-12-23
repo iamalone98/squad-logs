@@ -182,6 +182,7 @@ export type TSquadCreated = {
   time: string;
   chainID: string;
   name: string;
+  eosID: string;
   steamID: string;
   squadID: string;
   squadName: string;
