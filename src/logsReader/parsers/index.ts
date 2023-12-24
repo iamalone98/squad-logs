@@ -14,6 +14,7 @@ import { playerWounded } from './playerWounded';
 import { roundEnded } from './roundEnded';
 import { roundTickets } from './roundTickets';
 import { roundWinner } from './roundWinner';
+import { serverTickRate } from './serverTickRate';
 import { squadCreated } from './squadCreated';
 import { vehicleDamaged } from './vehicleDamaged';
 
@@ -35,6 +36,7 @@ const parsers = [
   roundWinner,
   squadCreated,
   vehicleDamaged,
+  serverTickRate,
 ];
 
 export const parseLine = (line: string, emitter: EventEmitter) => {

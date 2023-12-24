@@ -201,3 +201,11 @@ export type TVehicleDamaged = {
   healthRemaining: string;
   event: string;
 };
+
+export type TTickRate = {
+  raw: string;
+  time: string;
+  chainID: string;
+  tickRate: number;
+  event: string;
+};

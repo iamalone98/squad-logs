@@ -98,5 +98,6 @@ import { LogsReader } from 'squad-logs';
 | **ROUND_TICKETS**       | **response** | `TRoundTickets`       |
 | **SQUAD_CREATED**       | **response** | `TSquadCreated`       |
 | **VEHICLE_DAMAGED**     | **response** | `TVehicleDamaged`     |
+| **TICK_RATE**           | **response** | `TTickRate`           |
 | **connected**           | null         | null                  |
 | **close**               | null         | null                  |
