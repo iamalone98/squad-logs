@@ -237,6 +237,7 @@ export class LogsReader extends EventEmitter {
 
                 const stream = this.sftp.createReadStream(filePath, {
                   start: lastSize,
+                  end: size,
                 });
 
                 const rl = readline.createInterface({
