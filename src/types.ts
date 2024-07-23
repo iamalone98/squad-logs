@@ -125,6 +125,15 @@ export type TDeployableDamaged = {
   event: string;
 };
 
+export type TApplyExplosiveDamage = {
+  raw: string;
+  time: string;
+  chainID: string;
+  deployable: string;
+  playerController: string;
+  event: string;
+};
+
 export type TPlayerDamaged = {
   raw: string;
   time: string;
