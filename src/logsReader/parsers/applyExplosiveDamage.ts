@@ -3,7 +3,7 @@ import { TApplyExplosiveDamage } from '../../types';
 
 export const applyExplosiveDamage = (line: string) => {
   const matches = line.match(
-    /^\[([0-9.:-]+)]\[([ 0-9]*)]LogSquadTrace: \[DedicatedServer](?:ASQProjectile::)?ApplyExplosiveDamage\(\): HitActor=.+ DamageCauser=(.+) DamageInstigator=BP_PlayerController_C_(.+) ExplosionLocation=V\(X=.+, Y=.+, Z=.+)/,
+    /^\[([0-9.:-]+)]\[([ 0-9]*)]LogSquadTrace: \[DedicatedServer](?:ASQProjectile::)?ApplyExplosiveDamage\(\): HitActor=.+ DamageCauser=(.+) DamageInstigator=BP_PlayerController_C_(.+) ExplosionLocation=V\(X=.+, Y=.+, Z=.+\)/,
   );
 
   if (matches) {
