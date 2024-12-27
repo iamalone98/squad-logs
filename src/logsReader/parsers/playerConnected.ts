@@ -11,6 +11,7 @@ export const playerConnected = (line: string) => {
       raw: matches[0],
       time: matches[1],
       chainID: matches[2],
+      playerController: matches[3],
       ip: matches[4],
       eosID: matches[5],
       steamID: matches[6],

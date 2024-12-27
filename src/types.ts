@@ -34,6 +34,7 @@ export type TPlayerConnected = {
   raw: string;
   time: string;
   chainID: string;
+  playerController: string;
   ip: string;
   eosID: string;
   steamID: string;
