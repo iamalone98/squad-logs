@@ -202,3 +202,14 @@ export type TVehicleDamaged = {
   healthRemaining: string;
   event: string;
 };
+
+export type TApplyExplosiveDamaged = {
+  raw: string;
+  time: string;
+  chainID: string;
+  name: string;
+  grenade: string;
+  controller: string;
+  locations: string;
+  event: string;
+};
