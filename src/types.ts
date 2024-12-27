@@ -129,8 +129,10 @@ export type TApplyExplosiveDamage = {
   raw: string;
   time: string;
   chainID: string;
+  name: string;
   deployable: string;
   playerController: string;
+  locations: string;
   event: string;
 };
 
