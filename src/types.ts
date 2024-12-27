@@ -34,6 +34,7 @@ export type TPlayerConnected = {
   raw: string;
   time: string;
   chainID: string;
+  playerController: string;
   ip: string;
   eosID: string;
   steamID: string;
@@ -129,8 +130,10 @@ export type TApplyExplosiveDamage = {
   raw: string;
   time: string;
   chainID: string;
+  name: string;
   deployable: string;
   playerController: string;
+  locations: string;
   event: string;
 };
 
