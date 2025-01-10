@@ -210,6 +210,8 @@ export type TVehicleDamaged = {
   damage: number;
   attackerVehicle: string;
   attackerName: string;
+  attackerEOSID: string;
+  attackerSteamID: string;
   healthRemaining: string;
   event: string;
 };
