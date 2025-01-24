@@ -32,7 +32,7 @@ $ yarn add squad-logs
 import { LogsReader } from 'squad-logs';
 
 (async () => {
-  const logsReader = LogsReader({
+  const logsReader = new LogsReader({
     id: 1,
     autoReconnect: true,
     readType: 'remote',
@@ -59,7 +59,7 @@ import { LogsReader } from 'squad-logs';
 import { LogsReader } from 'squad-logs';
 
 (async () => {
-  const logsReader = LogsReader({
+  const logsReader = new LogsReader({
     id: 1,
     autoReconnect: true,
     readType: 'local',
