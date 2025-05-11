@@ -51,6 +51,7 @@ export type TPlayerDied = {
   attackerPlayerController: string;
   attackerEOSID: string;
   attackerSteamID: string;
+  /** Weapon: nullptr or controller */
   weapon: string;
   event: string;
 };
