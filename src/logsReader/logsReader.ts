@@ -18,6 +18,7 @@ export class LogsReader extends EventEmitter {
   sftp?: SFTPClient;
   tail?: Tail;
   host?: string;
+  port?: number;
   username?: string;
   password?: string;
   logEnabled?: boolean;
@@ -53,6 +54,7 @@ export class LogsReader extends EventEmitter {
       password,
       logEnabled,
       timeout,
+      port,
     } = options;
 
     this.id = id;
@@ -66,6 +68,7 @@ export class LogsReader extends EventEmitter {
 
     if (readType === 'remote') {
       this.host = host;
+      this.port = port;
       this.username = username;
       this.password = password;
     }
@@ -215,7 +218,7 @@ export class LogsReader extends EventEmitter {
         this.sftp = new SFTPClient();
 
         const connected = await this.sftp.connect({
-          port: 22,
+          port: this.port ?? 22,
           host,
           username,
           password,

@@ -5,6 +5,7 @@ export type TLogReaderOptions = {
   autoReconnect: boolean;
   readType: 'local' | 'remote';
   host?: string;
+  port?: number;
   username?: string;
   password?: string;
   timeout?: number;
