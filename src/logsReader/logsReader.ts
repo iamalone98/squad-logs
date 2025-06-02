@@ -295,7 +295,7 @@ export class LogsReader extends EventEmitter {
 
       if (groupID) {
         const group = groups[groupID];
-
+        if (!group) break;
         const perms: { [key in string]: boolean } = {};
         for (const groupPerm of group)
           perms[groupPerm.toLowerCase()] = true;
