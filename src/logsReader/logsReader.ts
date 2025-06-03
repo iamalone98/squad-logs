@@ -162,45 +162,17 @@ export class LogsReader extends EventEmitter {
 
                   resolve(data);
                 }
+                break;
               }
-              case 'FTP': {
-                const { host, password, username, filePath } = this;
-                if (!host && !password && !username && !filePath)
-                  return;
-                const ftpClient = new FTP.Client(this.timeout);
-                const connected = await ftpClient.access({
-                  port: this.port ?? 22,
-                  host,
-                  user: username,
-                  password,
-                  secure: false,
-                });
-                if (ftpClient && connected) {
-                  // Custom writable stream that accumulates chunks into a string
-                  const chunks: Buffer[] = [];
-                  const stream = new Writable({
-                    write(chunk, encoding, callback) {
-                      chunks.push(chunk);
-                      callback();
-                    },
-                  });
-
-                  await ftpClient.downloadTo(
-                    stream,
-                    this.adminsFilePath,
-                  );
-                  ftpClient.close();
-                  const data = this.#parseConfigUsers(
-                    Buffer.concat(
-                      chunks as unknown as Uint8Array[],
-                    ).toString('utf-8'),
-                  );
-
-                  resolve(data);
-                }
-              }
+              case 'FTP':
               case 'FTP-secure': {
-                const { host, password, username, filePath } = this;
+                const {
+                  host,
+                  password,
+                  username,
+                  filePath,
+                  remoteType,
+                } = this;
                 if (!host && !password && !username && !filePath)
                   return;
                 const ftpClient = new FTP.Client(this.timeout);
@@ -209,7 +181,7 @@ export class LogsReader extends EventEmitter {
                   host,
                   user: username,
                   password,
-                  secure: true,
+                  secure: remoteType === 'FTP' ? false : true,
                 });
                 if (ftpClient && connected) {
                   // Custom writable stream that accumulates chunks into a string
