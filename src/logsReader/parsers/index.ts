@@ -1,5 +1,6 @@
 import EventEmitter from 'events';
 import { adminBroadcast } from './adminBroadcast';
+import { applyExplosiveDamage } from './applyExplosiveDamage';
 import { deployableDamaged } from './deployableDamaged';
 import { newGame } from './newGame';
 import { playerConnected } from './playerConnected';
@@ -17,7 +18,6 @@ import { roundWinner } from './roundWinner';
 import { serverTickRate } from './serverTickRate';
 import { squadCreated } from './squadCreated';
 import { vehicleDamaged } from './vehicleDamaged';
-import { applyExplosiveDamage } from './applyExplosiveDamage';
 
 const parsers = [
   adminBroadcast,
@@ -38,7 +38,7 @@ const parsers = [
   squadCreated,
   vehicleDamaged,
   serverTickRate,
-  applyExplosiveDamage
+  applyExplosiveDamage,
 ];
 
 export const parseLine = (line: string, emitter: EventEmitter) => {

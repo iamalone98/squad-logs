@@ -4,7 +4,9 @@ export type TLogReaderOptions = {
   adminsFilePath: string;
   autoReconnect: boolean;
   readType: 'local' | 'remote';
+  remoteType?: 'SFTP' | 'FTP' | 'FTP-secure';
   host?: string;
+  port?: number;
   username?: string;
   password?: string;
   timeout?: number;

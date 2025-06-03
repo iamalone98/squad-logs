@@ -1,7 +1,9 @@
+import FTP from 'basic-ftp';
 import EventEmitter from 'events';
 import fs from 'fs';
 import readline from 'readline';
 import SFTPClient from 'ssh2-sftp-client';
+import { Writable } from 'stream';
 import { Tail } from 'tail';
 import { initLogger } from '../logger';
 import { TLogReaderOptions } from '../types';
@@ -12,12 +14,16 @@ export class LogsReader extends EventEmitter {
   filePath: string;
   adminsFilePath: string;
   readType: 'local' | 'remote';
+  remoteType: 'SFTP' | 'FTP' | 'FTP-secure';
   autoReconnect: boolean;
   logger: ReturnType<typeof initLogger>;
   sftpConnected: boolean;
+  ftpConnected: boolean;
   sftp?: SFTPClient;
+  ftp?: FTP.Client;
   tail?: Tail;
   host?: string;
+  port?: number;
   username?: string;
   password?: string;
   logEnabled?: boolean;
@@ -37,7 +43,12 @@ export class LogsReader extends EventEmitter {
         throw new Error(`${option} required!`);
 
     if (options.readType === 'remote') {
-      for (const option of ['host', 'username', 'password'])
+      for (const option of [
+        'host',
+        'username',
+        'password',
+        'remoteType',
+      ])
         if (!(option in options))
           throw new Error(`${option} required for remote!`);
     }
@@ -48,11 +59,13 @@ export class LogsReader extends EventEmitter {
       adminsFilePath,
       autoReconnect,
       readType,
+      remoteType,
       host,
       username,
       password,
       logEnabled,
       timeout,
+      port,
     } = options;
 
     this.id = id;
@@ -60,12 +73,15 @@ export class LogsReader extends EventEmitter {
     this.adminsFilePath = adminsFilePath;
     this.autoReconnect = autoReconnect;
     this.readType = readType;
+    this.remoteType = remoteType ?? 'SFTP';
     this.logEnabled = logEnabled;
     this.timeout = timeout;
     this.sftpConnected = false;
+    this.ftpConnected = false;
 
     if (readType === 'remote') {
       this.host = host;
+      this.port = port;
       this.username = username;
       this.password = password;
     }
@@ -89,7 +105,20 @@ export class LogsReader extends EventEmitter {
           this.#localReader();
         }
         case 'remote': {
-          this.#ftpReader();
+          switch (this.remoteType) {
+            case 'SFTP': {
+              this.#sftpReader();
+            }
+            case 'FTP': {
+              this.#ftpReader(false);
+            }
+            case 'FTP-secure': {
+              this.#ftpReader(true);
+            }
+            default: {
+              this.#sftpReader();
+            }
+          }
         }
       }
     });
@@ -112,22 +141,72 @@ export class LogsReader extends EventEmitter {
             resolve(data);
           }
           case 'remote': {
-            if (this.sftp && this.sftpConnected) {
-              const t = this.sftp.createReadStream(
-                this.adminsFilePath,
-              );
+            switch (this.remoteType) {
+              case 'SFTP': {
+                if (this.sftp && this.sftpConnected) {
+                  const t = this.sftp.createReadStream(
+                    this.adminsFilePath,
+                  );
 
-              const chunks = [];
+                  const chunks: Buffer[] = [];
 
-              for await (const chunk of t) {
-                chunks.push(Buffer.from(chunk));
+                  for await (const chunk of t) {
+                    chunks.push(Buffer.from(chunk));
+                  }
+
+                  const data = this.#parseConfigUsers(
+                    Buffer.concat(
+                      chunks as unknown as Uint8Array[],
+                    ).toString('utf-8'),
+                  );
+
+                  resolve(data);
+                }
+                break;
               }
+              case 'FTP':
+              case 'FTP-secure': {
+                const {
+                  host,
+                  password,
+                  username,
+                  filePath,
+                  remoteType,
+                } = this;
+                if (!host && !password && !username && !filePath)
+                  return;
+                const ftpClient = new FTP.Client(this.timeout);
+                const connected = await ftpClient.access({
+                  port: this.port ?? 22,
+                  host,
+                  user: username,
+                  password,
+                  secure: remoteType === 'FTP' ? false : true,
+                });
+                if (ftpClient && connected) {
+                  // Custom writable stream that accumulates chunks into a string
+                  const chunks: Buffer[] = [];
+                  const stream = new Writable({
+                    write(chunk, encoding, callback) {
+                      chunks.push(chunk);
+                      callback();
+                    },
+                  });
 
-              const data = this.#parseConfigUsers(
-                Buffer.concat(chunks).toString('utf-8'),
-              );
+                  await ftpClient.downloadTo(
+                    stream,
+                    this.adminsFilePath,
+                  );
+                  ftpClient.close();
+                  const data = this.#parseConfigUsers(
+                    Buffer.concat(
+                      chunks as unknown as Uint8Array[],
+                    ).toString('utf-8'),
+                  );
 
-              resolve(data);
+                  resolve(data);
+                }
+              }
             }
           }
         }
@@ -150,6 +229,14 @@ export class LogsReader extends EventEmitter {
     if (this.tail) {
       this.tail.unwatch();
       this.tail = undefined;
+      this.logger.warn('Close connection');
+      this.emit('close');
+    }
+
+    if (this.ftp && this.ftpConnected) {
+      this.ftp.close();
+      this.ftp = undefined;
+      this.ftpConnected = false;
       this.logger.warn('Close connection');
       this.emit('close');
     }
@@ -180,7 +267,7 @@ export class LogsReader extends EventEmitter {
 
       if (groupID) {
         const group = groups[groupID];
-
+        if (!group) break;
         const perms: { [key in string]: boolean } = {};
         for (const groupPerm of group)
           perms[groupPerm.toLowerCase()] = true;
@@ -200,7 +287,7 @@ export class LogsReader extends EventEmitter {
     return admins;
   }
 
-  async #ftpReader() {
+  async #sftpReader() {
     const { host, password, username, filePath } = this;
 
     if (
@@ -208,6 +295,7 @@ export class LogsReader extends EventEmitter {
       password &&
       username &&
       filePath &&
+      this.remoteType === 'SFTP' &&
       !this.sftp &&
       !this.sftpConnected
     ) {
@@ -215,7 +303,7 @@ export class LogsReader extends EventEmitter {
         this.sftp = new SFTPClient();
 
         const connected = await this.sftp.connect({
-          port: 22,
+          port: this.port ?? 22,
           host,
           username,
           password,
@@ -226,7 +314,7 @@ export class LogsReader extends EventEmitter {
           let canStart = true;
 
           this.emit('connected');
-          this.logger.log('Connected to FTP server');
+          this.logger.log('Connected to SFTP server');
           this.sftpConnected = true;
 
           for (;;) {
@@ -258,7 +346,7 @@ export class LogsReader extends EventEmitter {
           }
         }
       } catch (error) {
-        this.logger.error('FTP connection lost');
+        this.logger.error('SFTP connection lost');
         this.logger.error(error as string);
         this.emit('close');
 
@@ -267,8 +355,88 @@ export class LogsReader extends EventEmitter {
 
         if (this.autoReconnect) {
           setTimeout(() => {
-            this.logger.log('Reconnect to FTP');
+            this.logger.log('Reconnect to SFTP');
 
+            this.#sftpReader();
+          }, 5000);
+        }
+      }
+    }
+  }
+
+  async #ftpReader(secure = false) {
+    const { host, password, username, port, filePath } = this;
+
+    if (
+      host &&
+      password &&
+      username &&
+      filePath &&
+      (this.remoteType === 'FTP' ||
+        this.remoteType === 'FTP-secure') &&
+      !this.ftp &&
+      !this.ftpConnected
+    ) {
+      try {
+        this.ftp = new FTP.Client(this.timeout);
+
+        const connected = await this.ftp.access({
+          port: port ?? 21,
+          host,
+          user: username,
+          password,
+          secure,
+        });
+
+        if (connected) {
+          let lastSize = await this.ftp.size(filePath);
+          let canStart = true;
+
+          this.emit('connected');
+          this.logger.log('Connected to FTP server');
+          this.ftpConnected = true;
+
+          for (;;) {
+            if (this.ftp) {
+              const size = await this.ftp.size(filePath);
+              if (canStart && lastSize != size) {
+                canStart = false;
+
+                let data = '';
+                // Custom writable stream that accumulates chunks into a string
+                const stream = new Writable({
+                  write(chunk, encoding, callback) {
+                    data += chunk.toString(); // Convert each chunk to string and append
+                    callback();
+                  },
+                });
+
+                await this.ftp.downloadTo(stream, filePath, lastSize);
+
+                // Split the accumulated data into lines and process each line
+                data.split(/\r?\n/).forEach((line) => {
+                  if (line.trim() !== '') {
+                    this.#parseLine(line);
+                  }
+                });
+
+                lastSize = size;
+                canStart = true;
+              }
+            }
+          }
+        }
+      } catch (error) {
+        this.logger.error('FTP connection lost');
+        this.logger.error(error as string);
+        this.emit('close');
+
+        this.ftpConnected = false;
+        this.ftp = undefined;
+
+        if (this.autoReconnect) {
+          setTimeout(() => {
+            this.logger.log('Reconnect to FTP');
             this.#ftpReader();
           }, 5000);
         }
