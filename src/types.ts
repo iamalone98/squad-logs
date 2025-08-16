@@ -230,5 +230,6 @@ export type TNotifyAcceptingConnection = {
   time: string;
   chainID: string;
   ip: string;
+  port: string;
   event: string;
 };

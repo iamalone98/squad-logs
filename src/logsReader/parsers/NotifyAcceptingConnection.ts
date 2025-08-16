@@ -12,6 +12,7 @@ export const notifyAcceptingConnection = (line: string) => {
       time: matches[1],
       chainID: matches[2],
       ip: matches[3],
+      port: matches[4],
       event: LogsReaderEvents.PLAYER_ACCEPTING_CONNECTION,
     };
 
