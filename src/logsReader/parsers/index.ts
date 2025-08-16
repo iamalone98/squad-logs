@@ -18,6 +18,7 @@ import { serverTickRate } from './serverTickRate';
 import { squadCreated } from './squadCreated';
 import { vehicleDamaged } from './vehicleDamaged';
 import { applyExplosiveDamage } from './applyExplosiveDamage';
+import { notifyAcceptingConnection } from './NotifyAcceptingConnection';
 
 const parsers = [
   adminBroadcast,
@@ -38,7 +39,8 @@ const parsers = [
   squadCreated,
   vehicleDamaged,
   serverTickRate,
-  applyExplosiveDamage
+  applyExplosiveDamage,
+  notifyAcceptingConnection
 ];
 
 export const parseLine = (line: string, emitter: EventEmitter) => {

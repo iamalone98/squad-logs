@@ -224,3 +224,11 @@ export type TTickRate = {
   tickRate: number;
   event: string;
 };
+
+export type TNotifyAcceptingConnection = {
+  raw: string;
+  time: string;
+  chainID: string;
+  ip: string;
+  event: string;
+};
